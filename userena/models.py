@@ -194,7 +194,7 @@ class UserenaSignup(models.Model):
             return True
         return False
 
-    def send_activation_email(self):
+    def send_activation_email(self, **extra_context):
         """
         Sends a activation email to the user.
 
@@ -208,6 +208,8 @@ class UserenaSignup(models.Model):
                   'activation_days': userena_settings.USERENA_ACTIVATION_DAYS,
                   'activation_key': self.activation_key,
                   'site': Site.objects.get_current()}
+
+        context.update(extra_context)
 
         subject = render_to_string('userena/emails/activation_email_subject.txt',
                                    context)
